@@ -36,6 +36,7 @@ import TimeControls from "./TimeControls";
 import ChessHistoryButtons from "./ChessHistoryButtons";
 import PlayerTile from "./PlayerTile";
 import StatusBar from "./StatusBar";
+import { BASE_URL } from "../utils/otherConstants";
 
 const sound_game_start = new Audio("sounds/game-start.mp3");
 const sound_game_end = new Audio("sounds/game-end.mp3");
@@ -222,7 +223,7 @@ const Play = () => {
 
     console.log("[SOCKET] Connecting to server...");
     socket.current = new WebSocket(
-      `ws://localhost:3000/ws?token=${encodeURIComponent(token)}`
+      `ws://${BASE_URL}/ws?token=${encodeURIComponent(token)}`
     );
 
     socket.current.addEventListener("open", openHandler);
