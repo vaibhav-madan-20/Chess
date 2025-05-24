@@ -36,14 +36,12 @@ import TimeControls from "./TimeControls";
 import ChessHistoryButtons from "./ChessHistoryButtons";
 import PlayerTile from "./PlayerTile";
 import StatusBar from "./StatusBar";
-import { BASE_URL } from "../utils/otherConstants";
 
 const sound_game_start = new Audio("sounds/game-start.mp3");
 const sound_game_end = new Audio("sounds/game-end.mp3");
 const sound_move_self = new Audio("sounds/move-self.mp3");
 const sound_move_opponent = new Audio("sounds/move-opponent.mp3");
 
-// console.clear();
 
 const Play = () => {
   const [gamePhase, setGamePhase] = useState(GAME_PHASES.NOT_STARTED);
@@ -223,7 +221,9 @@ const Play = () => {
 
     console.log("[SOCKET] Connecting to server...");
     socket.current = new WebSocket(
-      `ws://${BASE_URL}/ws?token=${encodeURIComponent(token)}`
+      `ws://${import.meta.env.VITE_BASE_URL}/ws?token=${encodeURIComponent(
+        token
+      )}`
     );
 
     socket.current.addEventListener("open", openHandler);
