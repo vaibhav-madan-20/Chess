@@ -24,6 +24,10 @@ app.use(cors(
 app.use(express.json());
 app.use(cookieParser());
 
+app.get("/test", (req,res) => {
+  res.send("Working!");
+})
+
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use('/', guestAuthRouter);
