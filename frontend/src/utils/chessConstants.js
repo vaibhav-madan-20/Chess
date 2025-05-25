@@ -41,7 +41,7 @@ export const GAME_END_REASONS = {
     CHECKMATE: 'Checkmate',
     DRAW: 'Draw',
     DRAW_BY_AGREEMENT: 'Draw by agreement',
-    RESIGN: 'Resign',
+    RESIGN: 'Resignation',
     TIMEOUT: 'Timeout',
     ABORT: 'Abortion'
 };
