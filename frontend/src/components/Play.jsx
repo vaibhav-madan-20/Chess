@@ -364,7 +364,7 @@ const Play = () => {
     setIsDraw(null);
 
     let displayMessage;
-    const isUserLoser = loser === user.data._id;
+    const isUserLoser = loser === gameState.playerColor
 
     switch (reason) {
       case GAME_END_REASONS.CHECKMATE:
@@ -455,6 +455,14 @@ const Play = () => {
       gamePhase === GAME_PHASES.WAITING
     ) {
       console.log("Cannot start. Game phase:", gamePhase);
+      console.groupEnd();
+      return;
+    }
+
+    const token = getTokenFromCookies();
+    if (!token) {
+      console.log("[SOCKET] No authentication token found");
+      setStatus("Login/Sign up to get started");
       console.groupEnd();
       return;
     }
@@ -818,7 +826,6 @@ const Play = () => {
       console.groupEnd();
       return;
     }
-
     if (sendMessage(MESSAGE_TYPES.RESIGN)) {
       console.log("Resign message sent");
     } else {
