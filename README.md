@@ -3,6 +3,14 @@
 A full-featured multiplayer and AI-powered Chess game built using the MERN stack with real-time WebSocket communication. This project supports multiple modes including AI vs Human, Local 2-Player, and Online Multiplayer with matchmaking, chat, and timers.
 
 
+## Screenshots
+![Home page](screenshots/1.png)
+![Play locally](screenshots/2.png)
+![Play computer](screenshots/4.png)
+![Multiplayer](screenshots/5.png)
+![Multiplayer](screenshots/6.png)
+
+
 ## 🎮 Game Modes
 
 1. **Play vs Computer (Stockfish)**
@@ -74,15 +82,6 @@ npm run dev
 ```
 
 Now open your browser and go to the URL shown in terminal (usually [http://localhost:5173](http://localhost:5173)) to use the app.
-
-
-## Screenshots
-![Home page](screenshots/1.png)
-![Play locally](screenshots/2.png)
-![Play computer](screenshots/4.png)
-![Multiplayer](screenshots/5.png)
-![Multiplayer](screenshots/6.png)
-
 
 
 ## ✨ Contributing

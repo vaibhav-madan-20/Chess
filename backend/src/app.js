@@ -15,19 +15,8 @@ const profileRouter = require("./routes/profile.js");
 const guestAuthRouter = require('./routes/guest.js');
 
 const app = express();
-const allowedOrigins = [
-  `http://localhost:${process.env.FRONTEND_PORT || 5173}`,
-  'http://ec2-13-233-105-212.ap-south-1.compute.amazonaws.com',
-];
-
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: process.env.FRONTEND_URL,
   credentials: true,
 }));
 
