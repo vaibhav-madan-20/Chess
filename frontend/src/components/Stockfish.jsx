@@ -50,7 +50,7 @@ const Stockfish = () => {
   /* white | random | black */
   const [colorChoice, setColorChoice] = useState("white");
 
-  const [gamePhase, setGamePhase] = useState(GAME_PHASES.NOT_STARTED);
+  const gamePhase = useRef(GAME_PHASES.NOT_STARTED);
 
   const [status, setStatus] = useState("Click on play button to get started");
 
@@ -61,7 +61,7 @@ const Stockfish = () => {
 
     resetState();
 
-    setGamePhase(GAME_PHASES.ONGOING);
+    gamePhase.current = GAME_PHASES.ONGOING;
     setStatus("Game started. White's turn");
     const colorToSet =
       colorChoice === "black"
@@ -111,7 +111,7 @@ const Stockfish = () => {
         loser ? `Loser: ${loser === "w" ? "White" : "Black"}` : ""
       }`
     );
-    setGamePhase(GAME_PHASES.ENDED);
+    gamePhase.current = GAME_PHASES.ENDED;
     console.log(`Game ended: ${reason}, ${loser}`);
 
     console.groupEnd();
@@ -128,8 +128,8 @@ const Stockfish = () => {
     console.group("[MAKE ENGINE MOVE]");
     console.log("Move object", move);
 
-    if (gamePhase !== GAME_PHASES.ONGOING) {
-      console.log("No ongoing game-", gamePhase);
+    if (gamePhase.current !== GAME_PHASES.ONGOING) {
+      console.log("No ongoing game-", gamePhase.current);
       console.groupEnd();
       return;
     }
@@ -181,8 +181,8 @@ const Stockfish = () => {
 
   function onPieceDrop(sourceSquare, targetSquare, piece) {
     console.group("[ON PIECE DROP]");
-    if (gamePhase !== GAME_PHASES.ONGOING) {
-      console.log("No ongoing game", gamePhase);
+    if (gamePhase.current !== GAME_PHASES.ONGOING) {
+      console.log("No ongoing game", gamePhase.current);
       console.groupEnd();
       return false;
     }
@@ -298,7 +298,7 @@ const Stockfish = () => {
     return true;
   }
 
-  console.log("Game phase-", gamePhase);
+  // console.log("Game phase-", gamePhase.current);
 
   function onSquareClick(square, piece) {
     console.group("[ON SQUARE CLICK]");
@@ -310,8 +310,8 @@ const Stockfish = () => {
       return;
     }
 
-    if (gamePhase !== GAME_PHASES.ONGOING) {
-      console.log("No ongoing game", gamePhase);
+    if (gamePhase.current !== GAME_PHASES.ONGOING) {
+      console.log("No ongoing game", gamePhase.current);
       console.groupEnd();
       return false;
     }
@@ -397,12 +397,15 @@ const Stockfish = () => {
     setMoveFrom("");
     setMoveTo(null);
     setShowPromotionDialog(false);
+
+    stockfish.current?.postMessage("stop");
+    stockfish.current?.postMessage("isready");
   }
 
   function resignGame() {
     console.group("[RESIGN GAME]");
 
-    if (gamePhase !== GAME_PHASES.ONGOING) {
+    if (gamePhase.current !== GAME_PHASES.ONGOING) {
       console.log("No ongoing game!");
       console.groupEnd();
       return;
@@ -415,6 +418,7 @@ const Stockfish = () => {
     }
 
     stockfish.current?.postMessage("stop");
+    stockfish.current?.postMessage("isready");
     endGame(GAME_END_REASONS.RESIGN, userColor);
     console.groupEnd();
   }
@@ -451,9 +455,9 @@ const Stockfish = () => {
       if (movesLength === 0) {
         return;
       }
-      if (gamePhase === GAME_PHASES.ENDED && prev.isGameOver()) {
+      if (gamePhase.current === GAME_PHASES.ENDED && prev.isGameOver()) {
         console.log("Change game-phase from ended to ongoing");
-        setGamePhase(GAME_PHASES.ONGOING);
+        gamePhase.current = GAME_PHASES.ONGOING;
       }
 
       if (userColor === COLORS.BLACK) {
@@ -497,8 +501,8 @@ const Stockfish = () => {
               }
               areArrowsAllowed={false}
               boardOrientation={
-                (gamePhase === GAME_PHASES.ONGOING ||
-                gamePhase === GAME_PHASES.ENDED)
+                (gamePhase.current === GAME_PHASES.ONGOING ||
+                gamePhase.current === GAME_PHASES.ENDED)
                   ? userColor === "b"
                     ? "black"
                     : "white"
@@ -540,7 +544,7 @@ const Stockfish = () => {
             </h2>
           </div>
 
-          {gamePhase === GAME_PHASES.NOT_STARTED ? (
+          {gamePhase.current === GAME_PHASES.NOT_STARTED ? (
             <>
               <p className="text-lg md:text-xl mb-4">Pick a color</p>
               <div className="flex justify-around mb-6">
@@ -587,7 +591,7 @@ const Stockfish = () => {
                   <button
                     onClick={() => {
                       resetState();
-                      setGamePhase(GAME_PHASES.NOT_STARTED);
+                      gamePhase.current = GAME_PHASES.NOT_STARTED;
                     }}
                     className="bg-blue-600 text-white font-bold text-base md:text-lg px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-500 transition duration-200"
                   >
