@@ -17,7 +17,7 @@ const guestAuthRouter = require('./routes/guest.js');
 const app = express();
 app.use(cors({
   origin: (origin, callback) => {
-    console.log("Request Origin:", origin); // 👈 see what frontend is actually sending
+    // console.log("Request Origin:", origin); // 👈 see what frontend is actually sending
     callback(null, origin === process.env.FRONTEND_URL);
   },
   credentials: true,

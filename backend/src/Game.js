@@ -336,12 +336,7 @@ class Game {
 
         console.log(`[Disconnect] ${ws.user.username} (${color}) disconnected`);
 
-        // Check if both players are disconnected
-        if (this.connectionStatus[this.player1.user._id] === CONNECTION_STATUS.DISCONNECTED &&
-            this.connectionStatus[this.player2.user._id] === CONNECTION_STATUS.DISCONNECTED) {
-            console.log('[Game] Both players disconnected - ending game');
-            this.endGame(GAME_END_REASONS.ABORT, null);
-        }
+        this.endGame(GAME_END_REASONS.ABORT, null);
     }
 
     cleanup() {

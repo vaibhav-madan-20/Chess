@@ -397,7 +397,7 @@ const Play = () => {
 
       case GAME_END_REASONS.ABORT:
         displayMessage =
-          "Game Aborted - Connection lost with one or more players";
+          "Game Aborted - Server lost connection with one or more players";
         break;
     }
 
@@ -450,15 +450,6 @@ const Play = () => {
 
   function handleStartGame() {
     console.group("[HANDLE START GAME]");
-
-    if (
-      gamePhase === GAME_PHASES.ONGOING ||
-      gamePhase === GAME_PHASES.WAITING
-    ) {
-      console.log("Cannot start. Game phase:", gamePhase);
-      console.groupEnd();
-      return;
-    }
 
     const token = getTokenFromCookies();
     if (!token) {
@@ -952,7 +943,7 @@ const Play = () => {
 
   return (
     <div className="flex flex-col items-center justify-center w-full px-4 sm:px-6 lg:px-8 text-center">
-      <div className="w-full mb-4">
+      <div className="w-full">
         <StatusBar status={status} />
         {gamePhase === GAME_PHASES.ONGOING && (
           <p className="text-sm sm:text-base">

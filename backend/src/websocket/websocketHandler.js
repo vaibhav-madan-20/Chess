@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.js");
 const WebSocket = require('ws');
-const { WEBSOCKET_MESSAGE_TYPES, WEBSOCKET_ERROR_MESSAGES } = require('../chessConstants');
+const { WEBSOCKET_MESSAGE_TYPES, WEBSOCKET_ERROR_MESSAGES, MESSAGE_TYPES } = require('../chessConstants');
 
 const activeConnections = new Map();
 let numberOfConnections = 0;
@@ -128,7 +128,9 @@ function handleMessage(ws, gameManager) {
                 }
 
                 default: {
-                    console.log("Unknown message type-", message.type);
+                    if (! Object.values(MESSAGE_TYPES).includes(message.type)) {
+                        console.log("Unknown message type-", message.type);
+                    }
                 }
             }
         }

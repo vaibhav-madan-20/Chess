@@ -13,10 +13,12 @@ import ChessBoardTest from "./components/ChessBoardTest";
 export default function App() {
   const AppLayout = () => {
     return (
-      <>
+      <div
+      // className="flex flex-col sm:flex-row"
+      >
         <Header />
-        <Outlet />
-      </>
+          <Outlet />
+      </div>
     );
   };
   const appRouter = createBrowserRouter([

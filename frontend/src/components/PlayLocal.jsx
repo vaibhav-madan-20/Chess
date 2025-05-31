@@ -27,7 +27,7 @@ const GAME_PHASES = {
   ENDED: "ended",
 };
 
-// console.clear();
+console.clear();
 
 const PlayLocal = () => {
   const [chess, setChess] = useState(createChessInstance);
@@ -44,6 +44,18 @@ const PlayLocal = () => {
 
   function beginGame() {
     console.group("[BEGIN GAME]");
+
+    if (gamePhase === GAME_PHASES.ONGOING) {
+      const confirmRestart = window.confirm(
+        "A game is already in progress. Do you want to start a new game?"
+      );
+      if (!confirmRestart) {
+        console.log("Game restart cancelled by user.");
+        console.groupEnd();
+        return;
+      }
+    }
+
     resetState();
     setStatus("Game started! White's turn");
 
@@ -302,6 +314,14 @@ const PlayLocal = () => {
 
   function undoMove() {
     console.group("[UNDOMOVE]");
+
+    if (historyIndex !== history.length - 1) {
+      console.log("Setting history index to latest value");
+      setHistoryIndex(history.length - 1);
+      console.groupEnd();
+      return;
+    }
+    
     setChess((prev) => {
       if (prev.history().length === 0) {
         return prev;

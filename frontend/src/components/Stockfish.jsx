@@ -59,6 +59,17 @@ const Stockfish = () => {
   function beginGame() {
     console.group("[BEGIN GAME]");
 
+    if (gamePhase === GAME_PHASES.ONGOING) {
+      const confirmRestart = window.confirm(
+        "A game is already in progress. Do you want to start a new game?"
+      );
+      if (!confirmRestart) {
+        console.log("Game restart cancelled by user.");
+        console.groupEnd();
+        return;
+      }
+    }
+
     resetState();
 
     gamePhase.current = GAME_PHASES.ONGOING;
@@ -122,6 +133,21 @@ const Stockfish = () => {
   function handleGameOver(chessInstance) {
     const { reason, loser = null } = getGameOverDetails(chessInstance);
     endGame(reason, loser);
+  }
+
+  function handleNewGame() {
+    if (gamePhase.current === GAME_PHASES.ONGOING) {
+      const confirmRestart = window.confirm(
+        "A game is already in progress. Do you want to start a new game?"
+      );
+      if (!confirmRestart) {
+        console.log("Game restart cancelled by user.");
+        return;
+      }
+    }
+
+    resetState();
+    gamePhase.current = GAME_PHASES.NOT_STARTED;
   }
 
   function makeEngineMove(move) {
@@ -399,7 +425,6 @@ const Stockfish = () => {
     setShowPromotionDialog(false);
 
     stockfish.current?.postMessage("stop");
-    stockfish.current?.postMessage("isready");
   }
 
   function resignGame() {
@@ -418,7 +443,6 @@ const Stockfish = () => {
     }
 
     stockfish.current?.postMessage("stop");
-    stockfish.current?.postMessage("isready");
     endGame(GAME_END_REASONS.RESIGN, userColor);
     console.groupEnd();
   }
@@ -536,10 +560,10 @@ const Stockfish = () => {
         {/* Move history, Chess buttons */}
         <div className="w-full max-w-[600px] lg:w-1/3 lg:h-[680px] p-6 rounded-xl mt-8 lg:mt-0 bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900 shadow-lg border border-gray-600 transition-all duration-300">
           <div className="flex items-center justify-center gap-4 bg-gradient-to-bl from-indigo-700 via-indigo-500 to-indigo-300 px-4 py-3 rounded-2xl mb-6 shadow-md border border-indigo-500 transition-all duration-300">
-            <div className="w-7 h-7 filter drop-shadow-md">
+            <div className="w-6 h-6 filter drop-shadow-md">
               <BOT_SVG />
             </div>
-            <h2 className="text-2xl font-bold text-white tracking-wide">
+            <h2 className="text-lg font-bold text-white">
               <span className="bg-clip-text text-white">Play Computer</span>
             </h2>
           </div>
@@ -589,10 +613,7 @@ const Stockfish = () => {
                   </button>
                   {/* Rematch button */}
                   <button
-                    onClick={() => {
-                      resetState();
-                      gamePhase.current = GAME_PHASES.NOT_STARTED;
-                    }}
+                    onClick={handleNewGame}
                     className="bg-blue-600 text-white font-bold text-base md:text-lg px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-500 transition duration-200"
                   >
                     New game
