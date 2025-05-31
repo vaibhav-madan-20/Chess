@@ -128,6 +128,12 @@ const Stockfish = () => {
     console.group("[MAKE ENGINE MOVE]");
     console.log("Move object", move);
 
+    if (gamePhase !== GAME_PHASES.ONGOING) {
+      console.log("No ongoing game-", gamePhase);
+      console.groupEnd();
+      return;
+    }
+
     setChess((prevChess) => {
       const { latestMove, newChess } = makeChessMove(move, prevChess, true);
       if (!latestMove) {
@@ -292,6 +298,8 @@ const Stockfish = () => {
     return true;
   }
 
+  console.log("Game phase-", gamePhase);
+
   function onSquareClick(square, piece) {
     console.group("[ON SQUARE CLICK]");
 
@@ -430,7 +438,6 @@ const Stockfish = () => {
   }
 
   function undoMove() {
-
     if (historyIndex !== history.length - 1) {
       console.log("Setting history index to latest value");
       setHistoryIndex(history.length - 1);
@@ -445,6 +452,7 @@ const Stockfish = () => {
         return;
       }
       if (gamePhase === GAME_PHASES.ENDED && prev.isGameOver()) {
+        console.log("Change game-phase from ended to ongoing");
         setGamePhase(GAME_PHASES.ONGOING);
       }
 
@@ -461,6 +469,7 @@ const Stockfish = () => {
 
       console.log("prev.undo()", prev.undo());
       setHistoryIndex(prev.history().length - 1);
+      setStatus(prev.turn() === "w" ? "White's turn" : "Black's turn");
     }, setChess);
 
   }
@@ -488,8 +497,8 @@ const Stockfish = () => {
               }
               areArrowsAllowed={false}
               boardOrientation={
-                gamePhase ===
-                (GAME_PHASES.ONGOING || gamePhase === GAME_PHASES.ENDED)
+                (gamePhase === GAME_PHASES.ONGOING ||
+                gamePhase === GAME_PHASES.ENDED)
                   ? userColor === "b"
                     ? "black"
                     : "white"

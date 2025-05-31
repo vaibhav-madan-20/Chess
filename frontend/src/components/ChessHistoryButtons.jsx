@@ -8,7 +8,7 @@ const ChessHistoryButtons = ({ setHistoryIndex, historyLength }) => {
         ⏮
       </button>
       <button
-        onClick={() => setHistoryIndex((prev) => (prev > -1 ? prev - 1 : prev))}
+        onClick={() => setHistoryIndex((prev) => (prev > 0 ? prev - 1 : prev))}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 lg:py-2 px-2 lg:px-4 rounded-lg shadow-lg transition-transform transform hover:scale-105"
       >
         ◀

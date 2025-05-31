@@ -396,7 +396,8 @@ const Play = () => {
         break;
 
       case GAME_END_REASONS.ABORT:
-        displayMessage = "Game Aborted";
+        displayMessage =
+          "Game Aborted - Connection lost with one or more players";
         break;
     }
 
