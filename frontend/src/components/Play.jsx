@@ -24,6 +24,7 @@ import {
   WEBSOCKET_MESSAGE_TYPES,
   INVITE,
   GAME_END_REASONS,
+  WEBSOCKET_ERROR_MESSAGES,
 } from "../utils/chessConstants";
 
 import GameChat from "./GameChat";
@@ -172,6 +173,11 @@ const Play = () => {
 
       case WEBSOCKET_MESSAGE_TYPES.CONNECTION_SUCCESS: {
         console.log("Message- Connection success");
+        break;
+      }
+
+      case WEBSOCKET_ERROR_MESSAGES.REMOVING_EXISTING_CONNECTION: {
+        setStatus("Disconnected from server as you opened another tab/window");
         break;
       }
 
@@ -511,6 +517,12 @@ const Play = () => {
 
   function offerDraw() {
     console.group("[OFFER DRAW]");
+
+    if (gamePhase !== GAME_PHASES.ONGOING) {
+      console.log("No ongoing game-", gamePhase);
+      console.groupEnd();
+      return;
+    }
 
     if (isDraw) {
       console.log("A draw is already offered");
@@ -987,7 +999,7 @@ const Play = () => {
                   ? "white"
                   : "black"
               }
-              customDropSquareStyle={ {boxShadow: 'inset 0 0 1px 6px yellow' }}
+              customDropSquareStyle={{ boxShadow: "inset 0 0 1px 6px yellow" }}
               customNotationStyle={{
                 fontSize: "15px",
               }}
@@ -1060,7 +1072,7 @@ const Play = () => {
               {gamePhase === GAME_PHASES.ENDED && (
                 <button
                   onClick={resetState}
-                  className="font-bold bg-blue-600 py-2 px-4 rounded-lg shadow-md hover:bg-blue-500 transition duration-200 w-fit mx-auto"
+                  className="font-bold bg-blue-600 py-2 px-4 rounded-lg shadow-md hover:bg-blue-500 transition duration-200 w-fit mx-auto cursor-pointer"
                 >
                   New Game
                 </button>

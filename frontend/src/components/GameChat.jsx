@@ -25,11 +25,11 @@ const GameChat = ({
           placeholder="Send a message..."
           value={chatInput}
           onChange={onInputChange}
-          className="flex-1 px-3 py-2 rounded-lg border border-gray-300 focus:outline-none min-w-0"
+          className="flex-1 px-3 py-2 rounded-lg border border-gray-300 min-w-0"
         />
         <button
           onClick={sendChatMessage}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex-shrink-0"
+          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex-shrink-0 cursor-pointer"
         >
           Send
         </button>

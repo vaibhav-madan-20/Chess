@@ -9,13 +9,23 @@ let numberOfConnections = 0;
 function handleClose(ws, gameManager) {
     return () => {
         console.group('[HANDLE CLOSE]');
-        console.log(`User disconnecting: ${ws.user.username}`);
+
+        if (ws.closed) {
+            console.log(`Already processed close for ${ws.user.username}`);
+            console.groupEnd();
+            return;
+        }
+
+        ws.closed = true;
+
         gameManager.removePlayer(ws);
-        activeConnections.delete(ws.user._id);
-        numberOfConnections--;
-        console.log(`Total connections after disconnect: ${numberOfConnections}`);
-        printUsers();
-        console.log("#################")
+        console.log(`User disconnecting: ${ws.user.username}`);
+        if (activeConnections.get(ws.user._id)) {
+            activeConnections.delete(ws.user._id);
+            numberOfConnections--;
+            console.log(`Total connections after disconnect: ${numberOfConnections}`);
+            printUsers();
+        }
         console.groupEnd();
     };
 }
@@ -33,7 +43,6 @@ async function handleConnection(ws, req, gameManager) {
                 payload: WEBSOCKET_ERROR_MESSAGES.INVALID_TOKEN
             }));
             ws.close();
-            console.log("#################")
 
             console.groupEnd();
             return;
@@ -44,11 +53,18 @@ async function handleConnection(ws, req, gameManager) {
         const existingUser = activeConnections.get(user._id.toString());
         if (existingUser) {
             console.log("User already connected, closing previous connection");
+
+            if (existingUser.readyState === WebSocket.OPEN) {
+                existingUser.send(JSON.stringify({
+                    type: WEBSOCKET_ERROR_MESSAGES.REMOVING_EXISTING_CONNECTION,
+                }));
+            }
+
             existingUser.close();
-            numberOfConnections--;
-            activeConnections.delete(user._id.toString());
+                numberOfConnections--;
+                activeConnections.delete(user._id.toString());
             gameManager.removePlayer(existingUser);
-            console.log(`Total connections after disconnect: ${numberOfConnections}`);
+            console.log(`Total connections after disconnect: ${numberOfConnections}`)
         }
 
         ws.user = {
@@ -81,7 +97,6 @@ async function handleConnection(ws, req, gameManager) {
         }
         ws.close();
     }
-    console.log("#################")
     console.groupEnd();
 }
 
@@ -144,17 +159,13 @@ function handleMessage(ws, gameManager) {
             }
         }
         finally {
-            console.log("#################")
             console.groupEnd();
         }
     };
 }
 
 function printUsers() {
-    const keys = activeConnections.keys();
-    while (true) {
-        const key = keys.next().value;
-        if (!key) break;
+    for (const key of activeConnections.keys()) {
         console.log(key);
     }
 }
@@ -172,8 +183,6 @@ async function validateConnection(token) {
         console.log('User not found');
         throw new Error(WEBSOCKET_ERROR_MESSAGES.USER_NOT_FOUND);
     }
-
-    console.log("#################")
 
     console.groupEnd();
     return user;

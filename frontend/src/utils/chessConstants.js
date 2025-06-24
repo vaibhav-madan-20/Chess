@@ -1,12 +1,12 @@
 export const TIME_CONTROLS = [
     { minutes: 1, increment: 0 },
-    { minutes: 1, increment: 1 },
-    { minutes: 2, increment: 1 },
+    // { minutes: 1, increment: 1 },
+    // { minutes: 2, increment: 1 },
     { minutes: 3, increment: 0 },
-    { minutes: 3, increment: 2 },
+    // { minutes: 3, increment: 2 },
     { minutes: 5, increment: 0 },
     { minutes: 10, increment: 0 },
-    { minutes: 15, increment: 10 },
+    // { minutes: 15, increment: 10 },
     { minutes: 30, increment: 0 },
 ];
 
@@ -50,7 +50,8 @@ export const WEBSOCKET_MESSAGE_TYPES = {
     JOIN_GAME_VIA_QUEUE: 'join_game_via_queue',
     JOIN_GAME_VIA_INVITE: 'join_game_via_invite',
     CREATE_INVITE_CODE: 'create_invite_code',
-    CONNECTION_SUCCESS: 'connection_success'
+    CONNECTION_SUCCESS: 'connection_success',
+    ERROR: 'error'
 };
 
 export const INVITE = {
@@ -63,7 +64,8 @@ export const WEBSOCKET_ERROR_MESSAGES = {
     USER_NOT_FOUND: "User not found",
     ALREADY_CONNECTED: "User is already connected",
     MISSING_TIMECONFIG: "Time config property is missing",
-    MISSING_INVITE_CODE: "Invite code property is missing"
+    MISSING_INVITE_CODE: "Invite code property is missing",
+    REMOVING_EXISTING_CONNECTION: "removing_existing_connection"
 };
 
 export const GAME_SETTINGS = {
