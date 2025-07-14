@@ -1,12 +1,8 @@
 export const TIME_CONTROLS = [
     { minutes: 1, increment: 0 },
-    // { minutes: 1, increment: 1 },
-    // { minutes: 2, increment: 1 },
     { minutes: 3, increment: 0 },
-    // { minutes: 3, increment: 2 },
     { minutes: 5, increment: 0 },
     { minutes: 10, increment: 0 },
-    // { minutes: 15, increment: 10 },
     { minutes: 30, increment: 0 },
 ];
 
