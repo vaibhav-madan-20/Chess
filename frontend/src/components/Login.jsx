@@ -92,14 +92,18 @@ const Login = () => {
       <h2 className="text-2xl font-bold text-center">Log In</h2>
       <div className="mt-6">
         <input
+          autoComplete="on"
           aria-label="Email"
+          name="Email"
           placeholder="Email"
           className="w-full p-2 rounded bg-gray-800 border border-gray-700 mb-1 focus:outline-none focus:ring-2 focus:ring-green-500"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
+          autoComplete="on"
           aria-label="Password"
+          name="Password"
           type="password"
           placeholder="Password"
           className="w-full p-2 rounded bg-gray-800 border border-gray-700 mt-3 focus:outline-none focus:ring-2 focus:ring-green-500"

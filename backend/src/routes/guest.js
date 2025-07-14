@@ -64,7 +64,10 @@ router.post('/guest/signup', async (req, res) => {
         // Generate JWT token
         const token = user.getJWT(true);
 
-        res.cookie('token', token, { expires: new Date(Date.now() + 10 * 60 * 60 * 1000) }); //10 hours
+        res.cookie('token', token, {
+            expires: new Date(Date.now() + 10 * 60 * 60 * 1000), //10 hours 
+            // partitioned: true, secure: true 
+        });
 
         // Send response with safe data
         res.status(201).json({

@@ -1,5 +1,5 @@
 export const BASE_URL =
-  (import.meta.env.VITE_NODE_ENV === "development" ? "http://" : "https://") +
+  (import.meta.env.VITE_NODE_ENV === "production" ? "https://" : "http://") +
   import.meta.env.VITE_BASE_URL;
 
 export const BOT_SVG = () => {

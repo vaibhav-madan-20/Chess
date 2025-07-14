@@ -89,6 +89,7 @@ const Register = () => {
       <div className="mt-6">
         <input
           type="text"
+          name="Username"
           placeholder="Username"
           aria-label="Username"
           className="w-full p-2 rounded bg-gray-800 border border-gray-700 mb-3"
@@ -98,6 +99,7 @@ const Register = () => {
 
         <input
           placeholder="Email"
+          name="Email"
           aria-label="Email"
           className="w-full p-2 rounded bg-gray-800 border border-gray-700 mb-1"
           value={email}
@@ -105,7 +107,9 @@ const Register = () => {
         />
 
         <input
+          autoComplete="on"
           type="password"
+          name="Password"
           placeholder="Password"
           aria-label="Password"
           className="w-full p-2 rounded bg-gray-800 border border-gray-700 mt-3"

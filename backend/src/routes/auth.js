@@ -24,6 +24,7 @@ authRouter.post("/register", async (req, res) => {
     res.cookie("token", token,
       {
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+        // partitioned: true, secure: true
       }
     );
 
@@ -48,7 +49,8 @@ authRouter.post("/login", async (req, res) => {
 
       res.cookie("token", token,
         {
-          expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+          expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days,
+          // partitioned: true, secure: true
         }
       );
 
@@ -64,6 +66,7 @@ authRouter.post("/login", async (req, res) => {
 authRouter.post("/logout", async (req, res) => {
   res.cookie("token", null, {
     expires: new Date(Date.now()),
+    // partitioned: true, secure: true
   });
   res.end();
   // res.json({ success: true });

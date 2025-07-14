@@ -26,10 +26,6 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/test", (req,res) => {
-  res.send("Working!");
-})
-
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use('/', guestAuthRouter);
@@ -41,11 +37,12 @@ const gameManager = new GameManager();
 wss.on('connection', (ws, req) => handleConnection(ws, req, gameManager));
 
 // Start the database connection and server
+const port = process.env.PORT || 3000;
 connectDB()
   .then(() => {
     console.log("Database connection established...");
-    server.listen(3000, () => {
-      console.log("Server is successfully listening on port 3000...");
+    server.listen(port, () => {
+      console.log(`Server is successfully listening on port ${port}...`);
     });
   })
   .catch((e) => {
