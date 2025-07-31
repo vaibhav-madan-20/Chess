@@ -1,10 +1,9 @@
-
-const InviteCode = ({isGenerating, createInviteCode, inviteCode}) => {
+const InviteCode = ({ isGenerating, createInviteCode, inviteCode }) => {
   return (
-    <button
+    <div
       disabled={isGenerating}
       onClick={createInviteCode}
-      className={`relative mt-2 w-5/6 bg-slate-500 text-white font-extrabold px-4 py-4 rounded-xl ${
+      className={`relative inline-block mt-2 w-5/6 bg-slate-500 text-white font-extrabold px-4 py-4 rounded-xl ${
         isGenerating ? "cursor-not-allowed" : "cursor-pointer"
       }`}
     >
@@ -25,8 +24,8 @@ const InviteCode = ({isGenerating, createInviteCode, inviteCode}) => {
       >
         Copy
       </button> */}
-    </button>
+    </div>
   );
-}
+};
 
-export default InviteCode
+export default InviteCode;

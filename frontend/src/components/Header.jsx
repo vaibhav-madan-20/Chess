@@ -55,7 +55,6 @@ const Header = () => {
     return () => {
       controller.abort(); // Cancel request if component unmounts or re-renders
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, navigate, user]); // location.pathname to not be included, as it is a mutable value
 
   async function handleSignOut() {
@@ -109,7 +108,7 @@ const Header = () => {
           Sign Out
         </button>
       )}
-    </div>  
+    </div>
   );
 
 };

@@ -24,7 +24,7 @@ const sound_game_end = new Audio("sounds/game-end.mp3");
 const sound_move_self = new Audio("sounds/move-self.mp3");
 const sound_move_opponent = new Audio("sounds/move-opponent.mp3");
 
-const DEPTH = 16;
+const DEPTH = 8;
 
 const GAME_PHASES = {
   NOT_STARTED: "not_started",

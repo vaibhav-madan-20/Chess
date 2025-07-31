@@ -189,8 +189,6 @@ const Play = () => {
 
   useEffect(() => {
     let ignore = false;
-    const controller = new AbortController();
-    const signal = controller.signal;
 
     if (ignore || socket.current) return;
 
@@ -204,23 +202,19 @@ const Play = () => {
     }
 
     const openHandler = () => {
-      if (signal.aborted) return;
       console.log("[SOCKET] Connection opened");
     };
 
     const closeHandler = () => {
-      if (signal.aborted) return;
       console.log("[SOCKET] Connection closed");
       socket.current = null;
     };
 
     const messageHandler = (event) => {
-      if (signal.aborted) return;
       handleMessageRef.current(JSON.parse(event.data));
     };
 
     const errorHandler = (error) => {
-      if (signal.aborted) return;
       console.log("[SOCKET] Connection error:", error);
       socket.current = null;
     };
@@ -240,7 +234,6 @@ const Play = () => {
     return () => {
       console.log("useEffect cleanup");
       ignore = true;
-      controller.abort(); // Abort any ongoing operations
       if (socket.current) {
         socket.current.removeEventListener("message", messageHandler);
         socket.current.removeEventListener("error", errorHandler);
@@ -259,6 +252,7 @@ const Play = () => {
       }
     };
   }, []);
+// Need to manually terminate and remove listeners.
 
   function acceptDraw() {
     console.group("[ACCEPT DRAW]");
@@ -348,6 +342,7 @@ const Play = () => {
       return;
     }
 
+
     if (
       sendMessage(WEBSOCKET_MESSAGE_TYPES.CREATE_INVITE_CODE, { timeConfig })
     ) {
@@ -370,7 +365,7 @@ const Play = () => {
     setIsDraw(null);
 
     let displayMessage;
-    const isUserLoser = loser === gameState.playerColor
+    const isUserLoser = loser === gameState.playerColor;
 
     switch (reason) {
       case GAME_END_REASONS.CHECKMATE:
@@ -486,6 +481,14 @@ const Play = () => {
     ) {
       console.log("Cannot join. Game in progress");
       console.log(gamePhase);
+      console.groupEnd();
+      return;
+    }
+
+    const token = getTokenFromCookies();
+    if (!token) {
+      console.log("No authentication token found");
+      setStatus("Login/Sign up to get started");
       console.groupEnd();
       return;
     }
@@ -664,14 +667,13 @@ const Play = () => {
         to: moveTo,
         promotion: piece[1].toLowerCase(),
       };
-      const { latestMove, newChess } = makeChessMove(
-        moveObject,
-        chess
-      );
+      const { latestMove, newChess } = makeChessMove(moveObject, chess);
 
       const outcome = onMoveSuccess(latestMove, newChess, moveObject);
       if (outcome)
-      console.log("Promotion move executed successfully. Updating game state.");
+        console.log(
+          "Promotion move executed successfully. Updating game state."
+        );
     } else {
       console.log("No piece selected.");
     }
@@ -761,11 +763,8 @@ const Play = () => {
       const moveObject = {
         from: moveFrom,
         to: square,
-      }
-      const { latestMove, newChess } = makeChessMove(
-        moveObject,
-        chess
-      );
+      };
+      const { latestMove, newChess } = makeChessMove(moveObject, chess);
 
       onMoveSuccess(latestMove, newChess, moveObject);
     }
@@ -960,7 +959,7 @@ const Play = () => {
         {gamePhase === GAME_PHASES.ONGOING && (
           <p className="text-sm sm:text-base">
             {gameState.playerColor
-              ? `${chess.turn() === COLORS.WHITE ? "White" : "Black"}'s turn`
+              ? `${chess.turn() === gameState.playerColor ? "Your" : "Opponent's"} turn`
               : "\u00A0"}
           </p>
         )}

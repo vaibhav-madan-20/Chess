@@ -1,12 +1,14 @@
-
 const JoinWithCode = ({
   joinCodeInput,
   setJoinCodeInput,
   joinGameWithCode,
 }) => {
   return (
-    <>
+    <div
+      // className={`relative bg-slate-500 text-white font-extrabold px-4 py-4 rounded-xl`}
+    >
       <input
+      maxLength={12}
         onChange={(e) => setJoinCodeInput(e.target.value)}
         value={joinCodeInput}
         placeholder="Enter invite code"
@@ -18,8 +20,8 @@ const JoinWithCode = ({
       >
         Join with code
       </button>
-    </>
+    </div>
   );
 };
 
-export default JoinWithCode
+export default JoinWithCode;

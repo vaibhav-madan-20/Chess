@@ -45,7 +45,7 @@ class GameManager {
     addPlayerViaInvite(ws, inviteCode) {
         console.group();
         console.log("[ADD PLAYER VIA INVITE]");
-        console.log("Function payload:", ws, inviteCode);
+        console.log("Function payload:", inviteCode);
 
         if (!this.invites[inviteCode]) {
             console.log(`Invalid invite code attempt: ${inviteCode}`);

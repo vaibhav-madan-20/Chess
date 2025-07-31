@@ -32,8 +32,8 @@ const Login = () => {
         throw new Error(data.error || `HTTP error! Status: ${res.status}`);
       }
 
-      dispatch(addUser(data));
-      navigate("/");
+      // dispatch(addUser(data));
+      // navigate("/");
 
       setErrorMessage(null);
       dispatch(addUser(data));
