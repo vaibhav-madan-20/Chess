@@ -1,6 +1,10 @@
+const isHttps = window.location.protocol === "https:";
+
 export const BASE_URL =
-  (import.meta.env.VITE_IS_HTTPS === "true" ? "https://" : "http://") +
-  import.meta.env.VITE_BASE_URL;
+  (isHttps ? "https://" : "http://") + import.meta.env.VITE_API_BASE;
+
+export const WS_URL =
+  (isHttps ? "wss://" : "ws://") + import.meta.env.VITE_API_BASE;
 
 export const BOT_SVG = () => {
   return (
